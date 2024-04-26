@@ -1,5 +1,7 @@
 package com.jolmoz.threelinewebapp.model;
 
+import com.jolmoz.threelinewebapp.dto.PlayerDTO;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -22,6 +24,11 @@ public class Player {
 
     public enum PlayerType {
         PERSON, IA
+    }
+
+    public Player(PlayerDTO playerDTO) {
+        this.playerName = playerDTO.getPlayerName();
+        this.playerType = playerDTO.getPlayerType();
     }
 
     public long getId() {
@@ -47,5 +54,5 @@ public class Player {
     public void setPlayerType(PlayerType playerType) {
         this.playerType = playerType;
     }
-    
+
 }

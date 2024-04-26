@@ -15,6 +15,15 @@ public class GameDTO {
     private BoardState boardState;
     private Date lastSavedDate;
 
+    public GameDTO(PlayerDTO playerX, PlayerDTO playerO, String gameName) {
+        this.board = "000000000";
+        this.boardState = BoardState.PLAYING;
+        this.gameName = gameName;
+        this.lastSavedDate = new Date();
+        this.playerX = playerX;
+        this.playerO = playerO;
+    }
+
     public GameDTO(Game game) {
         this.id = game.getId();
         this.gameName = game.getGameName();

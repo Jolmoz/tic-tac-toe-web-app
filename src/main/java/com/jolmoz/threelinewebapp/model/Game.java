@@ -2,6 +2,8 @@ package com.jolmoz.threelinewebapp.model;
 
 import java.util.Date;
 
+import com.jolmoz.threelinewebapp.dto.GameDTO;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -40,6 +42,16 @@ public class Game {
 
     @Column(nullable = false)
     private Date lastSavedDate;
+
+    public Game(GameDTO gameDTO) {
+        this.gameName = gameDTO.getGameName();
+        this.board = gameDTO.getBoard();
+        this.boardState = gameDTO.getBoardState();
+        this.lastSavedDate = new Date();
+        this.playerO = new Player(gameDTO.getPlayerO());
+        this.playerX = new Player(gameDTO.getPlayerX());
+        this.playerWinner = new Player(gameDTO.getPlayerWinner());
+    }
 
     public enum BoardState {
         PLAYING, FINISHED
@@ -108,5 +120,5 @@ public class Game {
     public void setLastSavedDate(Date lastSavedDate) {
         this.lastSavedDate = lastSavedDate;
     }
-    
+
 }
