@@ -1,5 +1,9 @@
 package com.jolmoz.threelinewebapp.repository;
 
-public class PlayerRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.jolmoz.threelinewebapp.model.Player;
+
+public interface PlayerRepository extends JpaRepository<Player, Long> {
     
 }
