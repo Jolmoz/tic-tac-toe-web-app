@@ -54,7 +54,7 @@ public class ThreeLineControl {
         }
     }
 
-    public GameDTO getNewGame(PlayerDTO playerX, PlayerDTO playerO, String gameName) {
+    public GameDTO newGame(PlayerDTO playerX, PlayerDTO playerO, String gameName) {
         TicTacToeGame game = new TicTacToeGame();
         TicTacToeState currState = game.getInitialState();
         GameDTO gameDTO = new GameDTO(playerX, playerO, gameName);
