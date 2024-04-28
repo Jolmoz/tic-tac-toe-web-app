@@ -26,6 +26,10 @@ public class Player {
         PERSON, IA
     }
 
+    public Player() {
+
+    }
+
     public Player(PlayerDTO playerDTO) {
         this.playerName = playerDTO.getPlayerName();
         this.playerType = playerDTO.getPlayerType();

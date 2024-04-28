@@ -15,6 +15,10 @@ public class GameDTO {
     private BoardState boardState;
     private Date lastSavedDate;
 
+    public GameDTO() {
+
+    }
+
     public GameDTO(PlayerDTO playerX, PlayerDTO playerO, String gameName) {
         this.boardState = BoardState.PLAYING;
         this.gameName = gameName;
@@ -30,7 +34,11 @@ public class GameDTO {
             this.board = game.getBoard();
             this.playerX = new PlayerDTO(game.getPlayerX());
             this.playerO = new PlayerDTO(game.getPlayerO());
-            this.playerWinner = new PlayerDTO(game.getPlayerWinner());
+
+            if (game.getPlayerWinner() != null) {
+                this.playerWinner = new PlayerDTO(game.getPlayerWinner());
+            }
+
             this.boardState = game.getBoardState();
             this.lastSavedDate = game.getLastSavedDate();
         }

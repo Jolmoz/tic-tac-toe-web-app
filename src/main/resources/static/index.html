@@ -2,103 +2,97 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>3 en Línea</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>3 en Línea</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
 
-    <!-- Overlay oscuro -->
-    <div id="overlay"></div>
+  <!-- Overlay oscuro -->
+  <div id="overlay"></div>
 
-    <!-- Spinner -->
-    <div class="spinner-container">
-        <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Cargando...</span>
-        </div>
+  <!-- Spinner -->
+  <div class="spinner-container">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Cargando...</span>
     </div>
+  </div>
 
-    <div class="container">
-        <h1>Bienvenido al juego</h1>
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title"> Juego </h5>
-            </div>
-
-
-            <div class="container">
-                <div class='row'>
-                    <div style="height: 20px;"></div>
-                </div>
-                <div class='row justify-content-center align-items-center'>
-                    <div class='col-xs-12 col-lg-3 col-xl-3 col-xxl-2'>
-                        <div class='row no-gutters'>
-                            <div class='col-2 col-sm-4'>
-                                <input type="number" class="form-control" id="input1" min="0" max="8">
-                            </div>
-                            <div class='col-2 col-sm-4'>
-                                <input type="number" class="form-control" id="input2" min="0" max="8">
-                            </div>
-                            <div class='col-2 col-sm-4'>
-                                <input type="number" class="form-control" id="input3" min="0" max="8">
-                            </div>
-                        </div>
-                        <div class='row no-gutters'>
-                            <div class='col-2 col-sm-4'>
-                                <input type="number" class="form-control" id="input4" min="0" max="8">
-                            </div>
-                            <div class='col-2 col-sm-4'>
-                                <input type="number" class="form-control" id="input5" min="0" max="8">
-                            </div>
-                            <div class='col-2 col-sm-4'>
-                                <input type="number" class="form-control" id="input6" min="0" max="8">
-                            </div>
-                        </div>
-                        <div class='row no-gutters'>
-                            <div class='col-2 col-sm-4'>
-                                <input type="number" class="form-control" id="input7" min="0" max="8">
-                            </div>
-                            <div class='col-2 col-sm-4'>
-                                <input type="number" class="form-control" id="input8" min="0" max="8">
-                            </div>
-                            <div class='col-2 col-sm-4'>
-                                <input type="number" class="form-control" id="input9" min="0" max="8">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class='row'>
-                    <div style="height: 20px;"></div>
-                </div>
-                <div class='row'>
-                    <div class='col-xs-12 col-md-1'>
-                        <button type="button" class="btn btn-primary" onclick="jugar()">Resolver</button>
-                    </div>
-
-                </div>
-                <div class='row'>
-                    <div style="height: 20px;"></div>
-                </div>
-            </div>
-
-
+  <div class="container">
+    <h1>Bienvenido al juego</h1>
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title"> Juego </h5>
+        <div class="form-check">
+          <input class="form-check-input players" type="radio" name="playersCheck" id="radioOnePlayer" checked>
+          <label class="form-check-label" for="flexRadioDefault1">
+            1 Jugador (VS IA)
+          </label>
         </div>
-
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title"> Ganador </h5>
-            </div>
-            <div id="matrices-container"></div>
+        <div class="form-check">
+          <input class="form-check-input players" type="radio" name="playersCheck" id="radioTwoPlayers">
+          <label class="form-check-label" for="flexRadioDefault2">
+            Dos jugadores
+          </label>
         </div>
+        <div class="form-check form-check-inline players" id="playWithX">
+          <input class="form-check-input" type="radio" name="playerSelect" id="playWithXRadio" checked>
+          <label class="form-check-label" for="flexRadioDefault1">
+            Jugar con X
+          </label>
+        </div>
+        <div class="form-check form-check-inline players" id="playWithO">
+          <input class="form-check-input" type="radio" name="playerSelect" id="playWithORadio">
+          <label class="form-check-label" for="flexRadioDefault2">
+            Jugar con O
+          </label>
+        </div>
+        <div id="start-buttons" class="text-center">
+          <button id="new-game-button" class="btn btn-primary">Nuevo Juego</button>
+          <button id="load-game-button" class="btn btn-secondary">Cargar Juego</button>
+          <button id="save-game-button" class="btn btn-secondary d-none">Guardar Juego</button>
+        </div>
+      </div>
+      <div id="list-container"></div>
+
+      <div id="game-container" class="d-none">
+        <div class="container mt-5">
+          <h1 id="players" class="text-center mb-4"></h1>
+          <h2 id="turn-indicator" class="text-center mb-4"></h2>
+          <div class="row justify-content-center">
+            <div class="col-4">
+              <div class="board">
+                <div class="row">
+                  <div class="col cell" data-cell="0"></div>
+                  <div class="col cell" data-cell="1"></div>
+                  <div class="col cell" data-cell="2"></div>
+                </div>
+                <div class="row">
+                  <div class="col cell" data-cell="3"></div>
+                  <div class="col cell" data-cell="4"></div>
+                  <div class="col cell" data-cell="5"></div>
+                </div>
+                <div class="row">
+                  <div class="col cell" data-cell="6"></div>
+                  <div class="col cell" data-cell="7"></div>
+                  <div class="col cell" data-cell="8"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
-    <script type="module" src="./view/home/index.js"></script>
+  </div>
+  <script type="module" src="./view/home.js"></script>
 </body>
 
 </html>

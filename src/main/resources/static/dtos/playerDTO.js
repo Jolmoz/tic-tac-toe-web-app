@@ -1,7 +1,10 @@
 export class PlayerDTO {
-    constructor(id, playerName, playerType) {
-      this.id = id;
-      this.playerName = playerName;
-      this.playerType = playerType;
-    }
+  constructor(id, playerName, playerType) {
+    /** @type {number} */
+    this.id = id;
+    /** @type {string} */
+    this.playerName = playerName;
+    /** @type {string} */
+    this.playerType = playerType;
+  }
 }

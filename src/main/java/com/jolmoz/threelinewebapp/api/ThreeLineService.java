@@ -68,9 +68,9 @@ public class ThreeLineService {
     }
 
     @PostMapping("/makeMove")
-    public ResponseEntity<Object> makeMove(@RequestBody GameDTO gameDTO, @RequestParam int x, @RequestParam int y) {
+    public ResponseEntity<Object> makeMove(@RequestBody GameDTO gameDTO, @RequestParam int index) {
         try {
-            return ResponseEntity.ok().body(threeLineControl.makeMove(gameDTO, x, y));
+            return ResponseEntity.ok().body(threeLineControl.makeMove(gameDTO, index));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());

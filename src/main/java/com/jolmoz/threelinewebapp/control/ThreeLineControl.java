@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.jolmoz.threelinewebapp.dto.GameDTO;
 import com.jolmoz.threelinewebapp.dto.PlayerDTO;
 import com.jolmoz.threelinewebapp.model.Game;
+import com.jolmoz.threelinewebapp.model.Game.BoardState;
 import com.jolmoz.threelinewebapp.model.Player.PlayerType;
 import com.jolmoz.threelinewebapp.repository.GameRepository;
 import com.jolmoz.threelinewebapp.repository.PlayerRepository;
@@ -58,37 +59,82 @@ public class ThreeLineControl {
         TicTacToeGame game = new TicTacToeGame();
         TicTacToeState currState = game.getInitialState();
         GameDTO gameDTO = new GameDTO(playerX, playerO, gameName);
+
+        if (playerX.getPlayerType().equals(PlayerType.IA)) {
+            AdversarialSearch<TicTacToeState, XYLocation> search = MinimaxSearch
+                    .createFor(game);
+            XYLocation action = search.makeDecision(currState);
+            if (action != null) {
+                currState = game.getResult(currState, action);
+            }
+        }
+
         gameDTO.setBoard(currState.toString().replaceAll("\\s+", ""));
         return gameDTO;
     }
 
-    public GameDTO makeMove(GameDTO gameDTO, int x, int y) {
+    public GameDTO makeMove(GameDTO gameDTO, int index) {
         TicTacToeGame game = new TicTacToeGame();
         char[] gameStateArray = gameDTO.getBoard().toCharArray();
         TicTacToeState gameState = this.loadBoard(gameStateArray);
+        int x = index % 3;
+        int y = Math.floorDiv(index, 3);
         gameState.mark(x, y);
-        String nextPlayerInGame = game.getPlayer(gameState);
-        PlayerType nextPlayerType = null;
-        switch (nextPlayerInGame) {
-            case "X":
-                nextPlayerType = gameDTO.getPlayerX().getPlayerType();
-                break;
-
-            case "O":
-                nextPlayerType = gameDTO.getPlayerO().getPlayerType();
-                break;
-            default:
-                break;
-        }
-
-        if (nextPlayerType.equals(PlayerType.IA)) {
-            AdversarialSearch<TicTacToeState, XYLocation> search = MinimaxSearch
-                    .createFor(game);
-            XYLocation action = search.makeDecision(gameState);
-            gameState = game.getResult(gameState, action);
-        }
-
         gameDTO.setBoard(gameState.toString().replaceAll("\\s+", ""));
+
+        if (game.isTerminal(gameState)) {
+            double utility = gameState.getUtility();
+            if (utility == 1.0) {
+                gameDTO.setPlayerWinner(gameDTO.getPlayerX());
+            } else if (utility == 0.0) {
+                gameDTO.setPlayerWinner(gameDTO.getPlayerO());
+            }
+            gameDTO.setBoardState(BoardState.FINISHED);
+            if (gameDTO.getId() != 0) {
+                Game gameEntity = gameRepository.findById(gameDTO.getId()).get();
+                gameRepository.delete(gameEntity);
+            }
+            return gameDTO;
+        } else {
+
+            PlayerType nextPlayerType = null;
+            switch (game.getPlayer(gameState)) {
+                case "X":
+                    nextPlayerType = gameDTO.getPlayerX().getPlayerType();
+                    break;
+                case "O":
+                    nextPlayerType = gameDTO.getPlayerO().getPlayerType();
+                    break;
+                default:
+                    break;
+            }
+
+            if (nextPlayerType.equals(PlayerType.IA)) {
+                AdversarialSearch<TicTacToeState, XYLocation> search = MinimaxSearch
+                        .createFor(game);
+                XYLocation action = search.makeDecision(gameState);
+                if (action != null) {
+                    gameState = game.getResult(gameState, action);
+                }
+                gameDTO.setBoard(gameState.toString().replaceAll("\\s+", ""));
+
+                if (game.isTerminal(gameState)) {
+                    double utility = gameState.getUtility();
+                    if (utility == 1.0) {
+                        gameDTO.setPlayerWinner(gameDTO.getPlayerX());
+                    } else if (utility == 0.0) {
+                        gameDTO.setPlayerWinner(gameDTO.getPlayerO());
+                    }
+                    gameDTO.setBoardState(BoardState.FINISHED);
+                    if (gameDTO.getId() != 0) {
+                        Game gameEntity = gameRepository.findById(gameDTO.getId()).get();
+                        gameRepository.delete(gameEntity);
+                    }
+                    return gameDTO;
+                }
+            }
+        }
+
         return gameDTO;
     }
 

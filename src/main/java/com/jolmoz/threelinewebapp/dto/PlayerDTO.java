@@ -8,6 +8,9 @@ public class PlayerDTO {
     private String playerName;
     private PlayerType playerType;
 
+    public PlayerDTO() {
+    }
+
     public PlayerDTO(Player player) {
         this.id = player.getId();
         this.playerName = player.getPlayerName();

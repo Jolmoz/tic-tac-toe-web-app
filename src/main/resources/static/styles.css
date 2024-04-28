@@ -1,51 +1,3 @@
-.no-gutters {
-    margin-right: 0;
-    margin-left: 0;
-  
-    > .col,
-    > [class*="col-"] {
-      padding-right: 0;
-      padding-left: 0;
-    }
-  }
-
-  .row {
-    text-align: center;
-  }
-
-  #matrices-container {
-    display: flex;
-    flex-direction: column; /* Alinea las matrices en una columna */
-    align-items: center; /* Centra horizontalmente */
-    justify-content: center; /* Centra verticalmente */
-}
-
-.matrix-container {
-    margin-bottom: 20px; /* Añade un espacio entre cada matriz */
-}
-
-.matrix-row {
-    display: flex;
-}
-
-.matrix-cell {
-    flex: 1;
-    border: 1px solid black;
-    text-align: center;
-    padding: 5px;
-    width: 30px;
-    height: 30px;
-}
-
-.arrow {
-  width: 0;
-  height: 0;
-  border-left: 20px solid transparent;
-  border-right: 20px solid transparent;
-  border-top: 20px solid black;
-  margin: 10px auto;
-}
-
 #overlay {
   position: fixed;
   top: 0;
@@ -64,4 +16,24 @@
   transform: translate(-50%, -50%);
   z-index: 1001; 
   display: none; 
+}
+
+.board {
+  border: 2px solid #000;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.cell {
+  height: 100px;
+  border: 1px solid #000;
+  cursor: pointer;
+  font-size: 2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cell:hover {
+  background-color: #f0f0f0;
 }

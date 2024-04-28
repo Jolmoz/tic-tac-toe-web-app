@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.jolmoz.threelinewebapp.dto.GameDTO;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -25,16 +26,16 @@ public class Game {
     @Column(nullable = false)
     private String board;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "player_x_id")
     private Player playerX;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "player_o_id")
     private Player playerO;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "player_winner_id")
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "player_winner_id", nullable = true)
     private Player playerWinner;
 
     @Column(nullable = false)
@@ -43,6 +44,10 @@ public class Game {
     @Column(nullable = false)
     private Date lastSavedDate;
 
+    public Game() {
+
+    }
+
     public Game(GameDTO gameDTO) {
         this.gameName = gameDTO.getGameName();
         this.board = gameDTO.getBoard();
@@ -50,7 +55,10 @@ public class Game {
         this.lastSavedDate = new Date();
         this.playerO = new Player(gameDTO.getPlayerO());
         this.playerX = new Player(gameDTO.getPlayerX());
-        this.playerWinner = new Player(gameDTO.getPlayerWinner());
+        if (gameDTO.getPlayerWinner() != null) {
+            this.playerWinner = new Player(gameDTO.getPlayerWinner());
+        }
+
     }
 
     public enum BoardState {

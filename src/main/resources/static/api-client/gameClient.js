@@ -1,14 +1,78 @@
-import { dibujarTablero } from '../view/game/game'
-/**
- * Esta función por medio de un consumo al web service del backend envia la solicitud para resolver el puzzle
- * @param {*} values 
- * @returns 
- */
-export async function realizarPeticion(values) {
+import { GameDTO } from '/dtos/gameDTO.js';
 
-    // Mostrar el overlay oscuro y el spinner
-    document.getElementById("overlay").style.display = "block";
-    document.querySelector(".spinner-container").style.display = "block";
+// URL del backend
+const urlNewGame = 'http://localhost:8080/api/ThreeLineService/newGame';
+const urlMakeMove = 'http://localhost:8080/api/ThreeLineService/makeMove';
+const urlsaveGame = 'http://localhost:8080/api/ThreeLineService/saveGame';
+const urlgetAllGames = 'http://localhost:8080/api/ThreeLineService/getAllGames';
+const urlgetGame = 'http://localhost:8080/api/ThreeLineService/getGame';
+
+/**
+ * @returns {GameDTO[]}
+ */
+export async function getAllGames() {
+
+    // Configurar la solicitud POST
+    const requestOptions = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+
+    try {
+        const response = await fetch(urlgetAllGames, requestOptions);
+        if (!response.ok) {
+            throw new Error('Error al enviar los datos');
+        }
+
+        /** @type {GameDTO[]} */
+        const games = await response.json();
+        return games
+
+    } catch (error) {
+        console.error('Hubo un error:', error);
+        return;
+    }
+
+}
+
+/**
+ * @param {number} gameId  
+ * @returns {GameDTO}
+ */
+export async function getGame(gameId) {
+
+    // Configurar la solicitud POST
+    const requestOptions = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+
+    try {
+        const response = await fetch(urlgetGame + "?gameId=" + gameId, requestOptions);
+        if (!response.ok) {
+            throw new Error('Error al enviar los datos');
+        }
+
+        /** @type {GameDTO[]} */
+        const games = await response.json();
+        return games
+
+    } catch (error) {
+        console.error('Hubo un error:', error);
+        return;
+    }
+
+}
+
+/**
+ * @param {string} gameName 
+ * @returns {GameDTO}
+ */
+export async function newGame(players, gameName) {
 
     // Configurar la solicitud POST
     const requestOptions = {
@@ -16,36 +80,82 @@ export async function realizarPeticion(values) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(values)
+        body: JSON.stringify(players)
     };
 
     try {
-        const response = await fetch(url, requestOptions);
+        const response = await fetch(urlNewGame + "?gameName=" + gameName, requestOptions);
         if (!response.ok) {
             throw new Error('Error al enviar los datos');
         }
-        const data = await response.json();
-        console.log('Datos enviados correctamente:', data);
-        if (data.states == undefined) {
-            document.getElementById("overlay").style.display = "none";
-            document.querySelector(".spinner-container").style.display = "none";
-            alert(data.msg)
-            return
+
+        /** @type {GameDTO} */
+        const game = await response.json();
+        return game
+
+    } catch (error) {
+        console.error('Hubo un error:', error);
+        return;
+    }
+
+}
+
+/**
+ * @param {number} index 
+ * @returns {GameDTO}
+ */
+export async function makeMove(game, index) {
+
+    // Configurar la solicitud POST
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(game)
+    };
+
+    try {
+        const response = await fetch(urlMakeMove + "?index=" + index, requestOptions);
+        if (!response.ok) {
+            throw new Error('Error al enviar los datos');
         }
 
-        if (data.states.length == 0) {
-            document.getElementById("overlay").style.display = "none";
-            document.querySelector(".spinner-container").style.display = "none";
-            alert('No se encontró solución')
-            return
+        /** @type {GameDTO} */
+        const game = await response.json();
+        return game
+
+    } catch (error) {
+        console.error('Hubo un error:', error);
+        return;
+    }
+
+}
+
+/**
+ * @param {GameDTO} game 
+ * @returns {GameDTO}
+ */
+export async function saveGame(game) {
+
+    // Configurar la solicitud POST
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(game)
+    };
+
+    try {
+        const response = await fetch(urlsaveGame, requestOptions);
+        if (!response.ok) {
+            throw new Error('Error al enviar los datos');
         }
 
-        if (data.states.length > 0) {
-            await dibujarTablero(data.states, data.actions);
-        }
-
-        document.getElementById("overlay").style.display = "none";
-        document.querySelector(".spinner-container").style.display = "none";
+        /** @type {GameDTO} */
+        const game = await response.json();
+        return game
 
     } catch (error) {
         console.error('Hubo un error:', error);
